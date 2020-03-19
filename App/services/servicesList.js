@@ -7,14 +7,17 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {AirbnbRating} from 'react-native-ratings';
 
+// Genric style
+import genericStyles from '../assets/styles';
+
 //Modal
 import FilterModal from '../modals/FilterModal';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'A professional Cardio trainer with international skills',
-    image : "https://vparagon.com/wp-content/uploads/2018/03/service1-1024x576.jpeg",
-    rating : 4,
+    image : "https://source.unsplash.com/1024x768/?nature",
+    rating : 3,
     profession : 'Trainer',
     price : '1,400',
     currency : "SAR"
@@ -23,7 +26,7 @@ const DATA = [
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'No Pain no gain',
     image : "https://entrepreneurhandbook.co.uk/wp-content/uploads/2015/06/Online-business-idea-generation.jpg",
-    rating : 4,
+    rating : 2,
     profession : 'Trainer',
     price : '2,400',
     currency : "SAR"
@@ -32,37 +35,37 @@ const DATA = [
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     title: 'Third Item',
     image : "https://image.shutterstock.com/image-photo/customer-service-team-support-care-260nw-373731340.jpg",
-    rating : 4,
+    rating : 5,
     profession : 'Trainer',
     price : '3,500',
     currency : "SAR"
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e23d72',
-    title: 'Third Item',
+    title: 'A Professional cardio Trainer with interional Skills',
     image : "https://image.shutterstock.com/image-photo/beautiful-female-operator-talking-on-260nw-1042300345.jpg",
-    rating : 4,
+    rating : 5,
     profession : 'Trainer',
     price : '3,000',
-    currency : "SAR / Hour"
+    currency : "SAR"
   },
   {
     id: '58694a3f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    image : "https://entrepreneurhandbook.co.uk/wp-content/uploads/2015/06/Online-business-idea-generation.jpg",
-    rating : 5,
+    title: 'Have Super intelligent good boy in less than 5 sessions',
+    image : "https://source.unsplash.com/1024x768/?tree",
+    rating : 4,
     profession : 'Trainer',
     price : '3,500',
-    currency : "EGP"
+    currency : "SAR"
   },
   {
     id: '58694a3f-33a1-471f-bd96-145571e29d72',
     title: 'No Pain no gain',
-    image : "https://image.shutterstock.com/image-photo/beautiful-female-operator-talking-on-260nw-1042300345.jpg",
+    image : "https://source.unsplash.com/1024x768/?water",
     rating : 2,
     profession : 'Trainer',
     price : '3,300',
-    currency : "EGP"
+    currency : "SAR"
   },
 ];
 
@@ -82,11 +85,11 @@ function Item({item}) {
           <View style={styles.rowContainer}>  
             <AirbnbRating
               count={5}
-              defaultRating={4}
+              defaultRating={item.rating}
               size={15}
               showRating ={false}
             />
-            <Text style={styles.price}>{item.price} {item.currency}</Text>
+            <Text style={styles.price}>{item.price} {item.currency} <Text style={{color : 'gray' , fontWeight : 'normal',fontSize : 15}}>/ Hour</Text></Text>
           </View>
       </View>
     </TouchableOpacity>
@@ -102,28 +105,30 @@ class ServicesList extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
     return (
       <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <View style={styles.searchContainer}>
         <Text style={styles.searchText}>Fitness Trainer | Hira Street - Jeddah, KSA</Text>
-        <FontAwesome name="search" style={styles.darkIcon} size={25}  transform={{ rotate: 42 }}/>
+        <FontAwesome name="search" style={styles.darkIcon} size={18}  transform={{ rotate: 42 }}/>
       </View>
       <View style={styles.filterContainer}>
         <Text style={styles.servicesNumber}> {DATA.length} Serviecs</Text>
         <View style={styles.filter}>
           <TouchableOpacity
-            style={styles.filter}
+            style={[styles.filter,{paddingHorizontal : 7 , borderRightColor : 'gray',borderRightWidth : .5}]}
             onPress= {() => this.setState({ showFilterModal : true})}
           >
-          <FontAwesome name="filter" style={styles.grayIcon} size={25}  transform={{ rotate: 42 }}/>
-          <Text>Filter</Text>
+            <FontAwesome name="filter" style={[styles.grayIcon,{fontSize: 18,paddingHorizontal : 5}]} size={20}  transform={{ rotate: 42 }}/>
+            <Text style={[genericStyles.grayText,{fontSize: 18}]}>Filter</Text>
           </TouchableOpacity>
-
-          <Text> | </Text>
-          <FontAwesome name="sort" style={styles.coloredIcon} size={25} transform={{ rotate: 42 }}/>
-          <Text>Sort</Text>
+          <TouchableOpacity
+            style={[styles.filter,{paddingHorizontal : 5}]}
+            onPress= {() => this.setState({ showFilterModal : true})}
+          >
+          <FontAwesome name="sort" style={[styles.coloredIcon,{fontSize: 18,paddingHorizontal : 5}]} size={25} transform={{ rotate: 42 }}/>
+          <Text style={[genericStyles.coloredText,{fontSize: 18}]}>Sort</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <FlatList
@@ -211,7 +216,7 @@ const styles = StyleSheet.create({
   price :{
     color:'#17F1D7',
     fontWeight : 'bold',
-    fontSize : 20
+    fontSize : 18
   },
   currency:{
 

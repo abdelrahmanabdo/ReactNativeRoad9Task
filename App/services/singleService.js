@@ -115,9 +115,10 @@ class SingleService extends Component {
     this.setState({ activeSections });
   };
 
-  _renderItem = ({item, index}) => {
+  _renderItem = ({item}) => {
     return (
-      <TouchableOpacity onPress={()=> navigation.navigate('SingleService' ,{service : item})}
+      <TouchableOpacity 
+              onPress={()=>this.props.navigation.navigate('SingleService' ,{service : item})}
               style={styles.item}
               activeOpacity ={.8}
       >
