@@ -16,7 +16,7 @@ export default class FilterModal extends Component {
       super(props);
       this.state = {
         providerName : '' ,
-        rating : 0,
+        rating :  5,
         rangeLow : 0,
         rangeHigh : 10000
       }
@@ -54,7 +54,7 @@ export default class FilterModal extends Component {
                   placeholderTextColor="gray"
                   textAlign='left'
                   value={this.state.providerName}
-                  onChangeText={(value)=>this.setState({ fullName: value})}                       
+                  onChangeText={(value)=>this.setState({ providerName: value})}                       
               />
             </View>
             <View style={{flex:1,width :'100%'}}>
@@ -68,10 +68,10 @@ export default class FilterModal extends Component {
                   <CollapseBody>
                     <AirbnbRating
                       count={5}
-                      defaultRating={5}
+                      defaultRating={this.state.rating}
                       size={15}
                       showRating ={false}
-                      onFinishRating={(rating)=>this.setState({rating}) }
+                      onFinishRating={(rating)=>this.setState({rating : rating}) }
                     />
                 </CollapseBody>
               </Collapse>
@@ -88,19 +88,21 @@ export default class FilterModal extends Component {
                 <RangeSlider
                   gravity={'center'}
                   min={200}
+                  style={{ margin : 0 }}
                   max={1000}
-                  step={20}
+                  step={0}
+                  labelStyle = 'none'
+                  valueType='number'
                   selectionColor="#3df"
                   blankColor="#f618"
-                  onValueChanged={(low, high) => {
+                  onValueChanged={(low,high) => {
                       this.setState({rangeLow: low, rangeHigh: high})
-                  }}/>
-                  
+                  }}/>     
               </CollapseBody>
             </Collapse>
             </View>
           </View>
-          <TouchableOpacity  onPress={this.props.onPress} 
+          <TouchableOpacity  onPress={()=>this.props.onPress({rating : this.state.rating , providerName : this.state.providerName})} 
                              style={{bottom:0 , height : 70 ,
                                      justifyContent: 'center',alignItems:'center'  
                                     }}>

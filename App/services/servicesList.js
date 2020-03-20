@@ -13,64 +13,9 @@ import genericStyles from '../assets/styles';
 
 //Modal
 import FilterModal from '../modals/FilterModal';
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'A professional Cardio trainer with international skills',
-    image : "https://source.unsplash.com/1024x768/?nature",
-    rating : 3,
-    profession : 'Trainer',
-    price : '1,400',
-    currency : "SAR"
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'No Pain no gain',
-    image : "https://entrepreneurhandbook.co.uk/wp-content/uploads/2015/06/Online-business-idea-generation.jpg",
-    rating : 2,
-    profession : 'Trainer',
-    price : '2,400',
-    currency : "SAR"
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    image : "https://image.shutterstock.com/image-photo/customer-service-team-support-care-260nw-373731340.jpg",
-    rating : 5,
-    profession : 'Trainer',
-    price : '3,500',
-    currency : "SAR"
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e23d72',
-    title: 'A Professional cardio Trainer with interional Skills',
-    image : "https://image.shutterstock.com/image-photo/beautiful-female-operator-talking-on-260nw-1042300345.jpg",
-    rating : 5,
-    profession : 'Trainer',
-    price : '3,000',
-    currency : "SAR"
-  },
-  {
-    id: '58694a3f-3da1-471f-bd96-145571e29d72',
-    title: 'Have Super intelligent good boy in less than 5 sessions',
-    image : "https://source.unsplash.com/1024x768/?tree",
-    rating : 4,
-    profession : 'Trainer',
-    price : '3,500',
-    currency : "SAR"
-  },
-  {
-    id: '58694a3f-33a1-471f-bd96-145571e29d72',
-    title: 'No Pain no gain',
-    image : "https://source.unsplash.com/1024x768/?water",
-    rating : 2,
-    profession : 'Trainer',
-    price : '3,300',
-    currency : "SAR"
-  },
-];
 
-function Item({item}) {
+//Rendering Item 
+function Item({item }) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={() => navigation.navigate('SingleService' , {service : item})}
@@ -99,20 +44,97 @@ class ServicesList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      showFilterModal : false
+      showFilterModal : false ,
+      services : [
+        {
+          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+          title: 'A professional Cardio trainer with international skills',
+          image : "https://source.unsplash.com/1024x768/?nature",
+          rating : 3,
+          profession : 'Trainer',
+          price : '1,400',
+          currency : "SAR"
+        },
+        {
+          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+          title: 'No Pain no gain',
+          image : "https://entrepreneurhandbook.co.uk/wp-content/uploads/2015/06/Online-business-idea-generation.jpg",
+          rating : 2,
+          profession : 'Trainer',
+          price : '2,400',
+          currency : "SAR"
+        },
+        {
+          id: '58694a0f-3da1-471f-bd96-145571e29d72',
+          title: 'Third Item',
+          image : "https://image.shutterstock.com/image-photo/customer-service-team-support-care-260nw-373731340.jpg",
+          rating : 5,
+          profession : 'Trainer',
+          price : '3,500',
+          currency : "SAR"
+        },
+        {
+          id: '58694a0f-3da1-471f-bd96-145571e23d72',
+          title: 'A Professional cardio Trainer with interional Skills',
+          image : "https://image.shutterstock.com/image-photo/beautiful-female-operator-talking-on-260nw-1042300345.jpg",
+          rating : 5,
+          profession : 'Trainer',
+          price : '3,000',
+          currency : "SAR"
+        },
+        {
+          id: '58694a3f-3da1-471f-bd96-145571e29d72',
+          title: 'Have Super intelligent good boy in less than 5 sessions',
+          image : "https://source.unsplash.com/1024x768/?tree",
+          rating : 4,
+          profession : 'Trainer',
+          price : '3,500',
+          currency : "SAR"
+        },
+        {
+          id: '58694a3f-33a1-471f-bd96-145571e29d72',
+          title: 'No Pain no gain',
+          image : "https://source.unsplash.com/1024x768/?water",
+          rating : 2,
+          profession : 'Trainer',
+          price : '3,300',
+          currency : "SAR"
+        },
+      ],
+      filteredServices : []
     };
+  }
+  
+  //Filter services by name or rating
+  _filterServices = (filterData) => {
+    var newData = [];
+
+    //Filter by rating
+    newData = this.state.services.filter(item => {
+      return item.rating == filterData.rating ;
+    });
+
+    //Filter by name
+    if(filterData.providerName && filterData.providerName != ''){
+      newData = this.state.services.filter(item => {
+        return item.title.toLowerCase().indexOf(filterData.providerName.toLowerCase()) > -1 || item.rating == filterData.rating;
+      });
+    }
+
+    //Set new array with filtered data
+    this.setState({filteredServices : newData})
   }
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <View style={styles.searchContainer}>
         <Text style={styles.searchText}>Fitness Trainer | Hira Street - Jeddah, KSA</Text>
         <FontAwesome name="search" style={styles.darkIcon} size={18}  transform={{ rotate: 42 }}/>
       </View>
       <View style={styles.filterContainer}>
-        <Text style={styles.servicesNumber}> {DATA.length} Serviecs</Text>
+        <Text style={styles.servicesNumber}> {this.state.services.length} Serviecs</Text>
         <View style={styles.filter}>
           <TouchableOpacity
             style={[styles.filter,{paddingHorizontal : 7 , borderRightColor : 'gray',borderRightWidth : .5}]}
@@ -131,13 +153,14 @@ class ServicesList extends Component {
         </View>
       </View>
       <FlatList
-        data={DATA}
+        data={this.state.filteredServices.length == 0 ? this.state.services : this.state.filteredServices} 
         renderItem={({ item }) => <Item item={item} />}
         keyExtractor={item => item.id}
       />
       <FilterModal
-          onPress={() => {
-            this.setState({ showFilterModal: false })
+          onPress={(data) => {
+            this._filterServices(data);
+            this.setState({ showFilterModal: false });
           }}
           showModal={this.state.showFilterModal} />
     </SafeAreaView>
@@ -190,6 +213,8 @@ const styles = StyleSheet.create({
     fontSize :16,
     color :'#58595B',
     fontWeight : 'bold',
+    fontFamily : 'Bebas-Regular'
+
   },
   item: {
     backgroundColor: '#fff',
@@ -214,6 +239,7 @@ const styles = StyleSheet.create({
   name: {
     fontWeight : 'bold',
     fontSize : 21,
+    fontFamily : 'Bebas-Regular'
   },
   profession :{
     fontSize : 15,
@@ -222,10 +248,8 @@ const styles = StyleSheet.create({
   price :{
     color:'#17F1D7',
     fontWeight : 'bold',
-    fontSize : 18
-  },
-  currency:{
-
+    fontSize : 18,
+    fontFamily : 'Bebas-Regular'
   },
   image : {
     height : 150
