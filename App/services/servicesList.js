@@ -3,6 +3,7 @@ import { View , SafeAreaView , FlatList , Image,
          Text , StyleSheet ,StatusBar ,TouchableOpacity
         } from 'react-native';
 
+//3rd party modules
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {AirbnbRating} from 'react-native-ratings';
@@ -69,12 +70,10 @@ const DATA = [
   },
 ];
 
-
-
 function Item({item}) {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={()=> navigation.navigate('SingleService' ,{service : item})}
+    <TouchableOpacity onPress={() => navigation.navigate('SingleService' , {service : item})}
                       style={styles.item}
                       activeOpacity ={.8}
     >
@@ -137,6 +136,9 @@ class ServicesList extends Component {
         keyExtractor={item => item.id}
       />
       <FilterModal
+          onPress={() => {
+            this.setState({ showFilterModal: false })
+          }}
           showModal={this.state.showFilterModal} />
     </SafeAreaView>
     );
@@ -194,11 +196,15 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     borderWidth : 1,
-    borderColor :'#E6E7E8'
+    borderColor :'#E6E7E8',
+    justifyContent:'space-between',
+
   },
   content:{
     flexDirection : "column",
     padding : 10,
+    justifyContent:'space-between',
+
   },
   rowContainer:{
     flexDirection :"row",

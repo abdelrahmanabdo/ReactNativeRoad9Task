@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { Text, TouchableOpacity, View ,Dimensions } from 'react-native';
+
+//3rd party modules
 import Modal from "react-native-modal";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
@@ -7,7 +9,7 @@ import {Collapse,CollapseHeader, CollapseBody} from 'accordion-collapse-react-na
 import {AirbnbRating} from 'react-native-ratings';
 import RangeSlider from 'rn-range-slider';
 
-
+//Window Dimensions
 const windowWidth = Dimensions.get('window').width;
 export default class FilterModal extends Component {
   constructor(props){
@@ -19,22 +21,24 @@ export default class FilterModal extends Component {
         rangeHigh : 10000
       }
   }
+
   render() {
     return (
     <Modal
        isVisible={this.props.showModal}
-       style = {{alignItems : 'center' , justifyContent : 'center'}}>
-      <View style={{width : windowWidth - 50 , height : 450 , backgroundColor : '#fff' , borderRadius : 10, padding :20 }}>
+       style = {{alignItems:'center', justifyContent:'center'}}>
+      <View style={{width:windowWidth - 50 , height:400 , backgroundColor:'#fff' , borderRadius : 10, padding :20 }}>
           <View style={{flex:1 , flexDirection : 'column' , justifyContent: 'center' , alignItems : 'center' ,
-                          borderBottomWidth : .5 , borderBottomColor : 'gray'}}>
-            <View style={{flex : 1, flexDirection :'row' ,
+                        borderBottomWidth : .5 , borderBottomColor : '#D1D3D4'}}>
+            <View style={{
+                          flex : 1, flexDirection :'row' ,
                           justifyContent : 'space-between',width : '100%'
-                          }}>
+                        }}>
                 <Text style={{fontSize : 20 , fontWeight : 'bold'}}>
                   Filter
                 </Text>
                 <TouchableOpacity
-                  onPress={()=>this.props.showModal = true}
+                  onPress={this.props.onPress}
                 >
                  <FontAwesome name="times"
                               color='#D1D3D4'
@@ -97,7 +101,7 @@ export default class FilterModal extends Component {
             </View>
           </View>
           <TouchableOpacity  onPress={this.props.onPress} 
-                             style={{bottom:0 , height : 80 ,
+                             style={{bottom:0 , height : 70 ,
                                      justifyContent: 'center',alignItems:'center'  
                                     }}>
               <Text style={{ fontSize : 23 , fontWeight : 'bold' ,color : '#17F1D7'}}>Filter</Text>

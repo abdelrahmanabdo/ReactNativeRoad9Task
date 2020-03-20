@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ScrollView , View , StyleSheet , Dimensions ,
          Text , Image ,StatusBar ,TouchableOpacity} from 'react-native';
+
+//3rd party modules
 import { SliderBox } from "react-native-image-slider-box";
 import {AirbnbRating} from 'react-native-ratings';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -20,8 +22,9 @@ const SECTIONS = [
     content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book',
   },
 ];
+
 class SingleService extends Component {
-  constructor(props) {
+   constructor(props ) {
     super(props);
     this.state = {
       images: [
@@ -34,8 +37,8 @@ class SingleService extends Component {
         {
           id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
           title: 'A professional Cardio trainer with international skills',
-          image : "https://vparagon.com/wp-content/uploads/2018/03/service1-1024x576.jpeg",
-          rating : 4,
+          image : "https://source.unsplash.com/1024x768/?nature",
+          rating : 3,
           profession : 'Trainer',
           price : '1,400',
           currency : "SAR"
@@ -44,7 +47,7 @@ class SingleService extends Component {
           id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
           title: 'No Pain no gain',
           image : "https://entrepreneurhandbook.co.uk/wp-content/uploads/2015/06/Online-business-idea-generation.jpg",
-          rating : 4,
+          rating : 2,
           profession : 'Trainer',
           price : '2,400',
           currency : "SAR"
@@ -53,43 +56,52 @@ class SingleService extends Component {
           id: '58694a0f-3da1-471f-bd96-145571e29d72',
           title: 'Third Item',
           image : "https://image.shutterstock.com/image-photo/customer-service-team-support-care-260nw-373731340.jpg",
-          rating : 4,
+          rating : 5,
           profession : 'Trainer',
           price : '3,500',
           currency : "SAR"
         },
         {
           id: '58694a0f-3da1-471f-bd96-145571e23d72',
-          title: 'Third Item',
+          title: 'A Professional cardio Trainer with interional Skills',
           image : "https://image.shutterstock.com/image-photo/beautiful-female-operator-talking-on-260nw-1042300345.jpg",
-          rating : 4,
+          rating : 5,
           profession : 'Trainer',
           price : '3,000',
-          currency : "SAR / Hour"
+          currency : "SAR"
         },
         {
           id: '58694a3f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Item',
-          image : "https://entrepreneurhandbook.co.uk/wp-content/uploads/2015/06/Online-business-idea-generation.jpg",
-          rating : 5,
+          title: 'Have Super intelligent good boy in less than 5 sessions',
+          image : "https://source.unsplash.com/1024x768/?tree",
+          rating : 4,
           profession : 'Trainer',
           price : '3,500',
-          currency : "EGP"
+          currency : "SAR"
         },
         {
           id: '58694a3f-33a1-471f-bd96-145571e29d72',
           title: 'No Pain no gain',
-          image : "https://image.shutterstock.com/image-photo/beautiful-female-operator-talking-on-260nw-1042300345.jpg",
+          image : "https://source.unsplash.com/1024x768/?water",
           rating : 2,
           profession : 'Trainer',
           price : '3,300',
-          currency : "EGP"
+          currency : "SAR"
         },
       ],
       activeSections: [0],
-
+      service : {},
     };
+
   }
+
+  static getDerivedStateFromProps(props, state) {
+    var serviceData =  props.route.params.service;
+    return {
+       service : serviceData
+    }
+  }
+
   _renderSectionTitle = section => {
     return (<View></View>);
   };
@@ -97,7 +109,7 @@ class SingleService extends Component {
   _renderHeader = section => {
     return (
       <View style={styles.collapseHeader}>
-        <Text style={genericStyles.headingText}>{section.title}</Text>
+        <Text style={{color : 'gray',fontWeight : 'bold'}}>{section.title}</Text>
         <FontAwesome name="chevron-down" style={{color : '#D1D3D4'}}/>
       </View>
     );
@@ -152,20 +164,22 @@ class SingleService extends Component {
           inactiveDotColor="#90A4AE" />
           <View style={[styles.section , styles.topSection]}>
               <View>
-                <Text style={[genericStyles.blackText , genericStyles.boldText]}>Have a super intelligent good boy in less than 5 seconds</Text>
+                <Text style={[genericStyles.blackText , genericStyles.boldText]}>
+                  {this.state.service.title}
+                </Text>
               </View>
               <View style={genericStyles.horizontalRow}>
                 <AirbnbRating
                     count={5}
-                    defaultRating={4}
+                    defaultRating={this.state.service.rating}
                     size={15}
                     showRating ={false}
                 />
                 <Text style={[genericStyles.grayText]}>100 Delivery orders</Text>
               </View>
               <View style={genericStyles.horizontalRow}>
-                <Text style={[genericStyles.grayText]}>Pet Care</Text>
-                <Text style={[genericStyles.coloredText , genericStyles.boldText]}>2,500 SAR / Hour</Text>
+                <Text style={[genericStyles.grayText]}>{this.state.service.profession}</Text>
+                <Text style={[genericStyles.coloredText , genericStyles.boldText]}>{this.state.service.price} {this.state.service.currency} <Text style={{color : 'gray' , fontWeight : 'normal',fontSize : 15}}>/ Hour</Text></Text>
               </View>
               <View style={genericStyles.horizontalRow}>
                  <Text  style={[genericStyles.greenText , genericStyles.boldText]}>Active</Text>
@@ -175,8 +189,8 @@ class SingleService extends Component {
               <View style={genericStyles.verticalRow , { borderBottomWidth : .5 , borderBottomColor : '#BCBEC0'}}>
                 <View style={[genericStyles.horizontalRow , { justifyContent : 'flex-start', paddingVertical : 7 }]}>
                   <Image style={styles.userAvatar}
-                         source={require("../assets/images/default-profile.png")} />
-                  <Text style={{marginHorizontal : 5}}>Username</Text>
+                         source={{uri : this.state.service.image}} />
+                  <Text style={{marginHorizontal : 5 , fontSize : 17}}>Username</Text>
                 </View>
                 <View style={[genericStyles.horizontalRow , { justifyContent : 'flex-start', paddingVertical : 7 }]}>
                     <FontAwesome  name="envelope" color="gray" style={styles.icon}/>
@@ -188,7 +202,7 @@ class SingleService extends Component {
                 </View>
                 <View style={[genericStyles.horizontalRow , { justifyContent : 'flex-start', paddingVertical : 7 }]}>
                     <FontAwesome  name="map-marker" color="gray"  style={styles.icon}/>
-                    <Text>+201096742196</Text>
+                    <Text> Jeddah , KSA</Text>
                 </View>
                 <View style={[genericStyles.horizontalRow , { justifyContent : 'flex-start', paddingVertical : 7 }]}>
                     <Text style={[genericStyles.balackText , genericStyles.boldText , {fontSize : 18}]}>Speaks :  </Text>
